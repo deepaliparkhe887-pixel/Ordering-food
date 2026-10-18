@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FoodieHub | Online Food Ordering</title>
+<style>
+:root{--orange:#ff4b2b;--ink:#171d2e;--muted:#697386;--bg:#f7f8fa}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#fff;display:flex;align-items:center;justify-content:space-between;padding:16px 5%;gap:14px;box-shadow:0 2px 12px #1820330b;position:sticky;top:0;z-index:2}
+.logo{font-size:24px;font-weight:800;color:var(--orange);white-space:nowrap}nav{display:flex;gap:20px}nav a{color:var(--ink);text-decoration:none;font-weight:600;font-size:14px}
+main{max-width:1250px;margin:auto;padding:20px}
+.hero{border-radius:18px;padding:35px 28px;color:white;background:linear-gradient(90deg,#17130fef,#17130f88),url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1500&q=85') center/cover;min-height:245px;display:flex;flex-direction:column;justify-content:center}
+.hero small{font-size:15px}.hero h1{font-size:clamp(28px,4vw,46px);margin:12px 0}.hero p{margin:0 0 18px;font-size:18px}
+.search{display:flex;gap:8px;max-width:560px}.search input{min-width:0;flex:1;padding:14px;border:0;border-radius:30px;font-size:14px}.btn{background:var(--orange);border:0;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer}.search .btn{border-radius:30px}
+h2{font-size:22px;margin:26px 0 15px}.categories{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}.cat{background:#fff;border:1px solid #edf0f4;border-radius:14px;padding:14px 6px;text-align:center;cursor:pointer;font-weight:600}.cat span{display:block;font-size:29px;margin-bottom:7px}.cat:hover,.cat.active{border-color:var(--orange);color:var(--orange)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}.foods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.food{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #edf0f4;box-shadow:0 4px 14px #19233a08}.food img{width:100%;height:145px;object-fit:cover;display:block}.food-body{padding:13px}.food h3{font-size:16px;margin:0 0 7px}.desc{font-size:12px;color:var(--muted);min-height:28px}.price-row{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:12px}.price{font-weight:800}.cart{background:#fff;border-radius:14px;padding:17px;border:1px solid #edf0f4;position:sticky;top:88px}.cart h2{margin:0 0 14px}.cart-item{display:flex;justify-content:space-between;gap:8px;padding:11px 0;border-bottom:1px solid #edf0f4;font-size:13px}.qty{display:flex;align-items:center;gap:7px}.qty button{border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer}.totals{display:flex;justify-content:space-between;margin:13px 0;font-size:14px}.grand{font-weight:800;font-size:18px}.checkout{width:100%;margin-top:10px}.empty{color:var(--muted);font-size:14px;padding:12px 0}footer{margin-top:26px;background:#fff;border-radius:14px;padding:20px;display:flex;justify-content:space-around;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.cart{position:static}.foods{grid-template-columns:repeat(2,minmax(0,1fr))}.categories{grid-template-columns:repeat(4,1fr)}nav{gap:10px}}
+@media(max-width:520px){header{padding:13px 4%;flex-wrap:wrap}.logo{font-size:21px}nav{width:100%;justify-content:space-between}nav a{font-size:12px}main{padding:12px}.hero{padding:25px 18px;min-height:235px}.hero p{font-size:15px}.search{flex-direction:column}.search .btn{padding:12px}.foods{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.food img{height:110px}.food-body{padding:10px}.food h3{font-size:14px}.btn{padding:10px 11px;font-size:12px}.cat{font-size:12px;padding:11px 3px}.cat span{font-size:25px}}
+</style>
+</head>
+<body>
+<header><div class="logo">🍽 FoodieHub</div><nav><a href="#">Home</a><a href="#menu">Food Menu</a><a href="#categories">Categories</a><a href="#cart">My Cart</a></nav></header>
+<main>
+<section class="hero"><small>DELICIOUS FOOD, DELIVERED TO YOUR DOOR</small><h1>Order Your Favourite Food</h1><p>Fresh meals from the menu, made for your cravings.</p><div class="search"><input id="location" placeholder="📍 Enter your delivery location"><button class="btn" onclick="searchFood()">Search Food</button></div></section>
+<section id="categories"><h2>Browse by Category</h2><div class="categories">
+<div class="cat active" onclick="filterFood('All',this)"><span>🍽️</span>All</div><div class="cat" onclick="filterFood('Pizza',this)"><span>🍕</span>Pizza</div><div class="cat" onclick="filterFood('Burger',this)"><span>🍔</span>Burger</div><div class="cat" onclick="filterFood('Indian',this)"><span>🍛</span>Indian</div><div class="cat" onclick="filterFood('Chinese',this)"><span>🍜</span>Chinese</div><div class="cat" onclick="filterFood('Dessert',this)"><span>🍰</span>Desserts</div><div class="cat" onclick="filterFood('Drinks',this)"><span>🥤</span>Drinks</div><div class="cat" onclick="filterFood('Fast Food',this)"><span>🍟</span>Fast Food</div>
+</div></section>
+<div class="layout"><section id="menu"><h2>Popular Food Menu</h2><div class="foods" id="foods"></div></section>
+<aside class="cart" id="cart"><h2>🛒 Your Cart <span id="cartCount" style="color:var(--orange)">(0)</span></h2><div id="cartItems"><div class="empty">Your cart is empty. Add some tasty food!</div></div><div class="totals"><span>Subtotal</span><strong id="subtotal">₹0</strong></div><div class="totals"><span>Delivery Fee</span><strong id="delivery">₹0</strong></div><div class="totals grand"><span>Total</span><strong id="total">₹0</strong></div><button class="btn checkout" onclick="checkout()">Place Order</button><p style="font-size:11px;color:var(--muted)">Demo website · No real payment is collected.</p></aside></div>
+<footer><span>🚚 <b>Fast Delivery</b> · On-time service</span><span>🔒 <b>Safe Ordering</b> · Demo checkout</span><span>☎️ <b>Support</b> · Here to help</span></footer>
+</main>
+<script>
+const products=[
+{id:1,name:'Margherita Pizza',cat:'Pizza',price:199,desc:'Cheesy classic with fresh basil',img:'https://images.unsplash.com/photo-157 pizza'},
+{id:2,name:'Cheese Burger',cat:'Burger',price:149,desc:'Juicy burger with crispy fries',img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=80'},
+{id:3,name:'Veg Biryani',cat:'Indian',price:180,desc:'Fragrant rice with Indian spices',img:'https://images.unsplash.com/photo-1563379091339-03246963d96c?auto=format&fit=crop&w=700&q=80'},
+{id:4,name:'Hakka Noodles',cat:'Chinese',price:160,desc:'Wok-tossed noodles and vegetables',img:'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=700&q=80'},
+{id:5,name:'Chocolate Cake',cat:'Dessert',price:120,desc:'Rich chocolate dessert',img:'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=700&q=80'},
+{id:6,name:'Cold Coffee',cat:'Drinks',price:90,desc:'Chilled creamy coffee',img:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=700&q=80'},
+{id:7,name:'French Fries',cat:'Fast Food',price:99,desc:'Golden and crispy fries',img:'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=700&q=80'},
+{id:8,name:'Farmhouse Pizza',cat:'Pizza',price:249,desc:'Loaded with colourful vegetables',img:'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=700&q=80'}
+];
+// Correct image URL for pizza card
+products[0].img='https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?auto=format&fit=crop&w=700&q=80';
+let cart={}; let currentCategory='All';
+function renderFoods(){const q=(document.getElementById('location').dataset.query||'').toLowerCase();const list=products.filter(p=>(currentCategory==='All'||p.cat===currentCategory)&&(!q||p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)));document.getElementById('foods').innerHTML=list.map(p=>`<article class="food"><img src="${p.img}" alt="${p.name}" loading="lazy"><div class="food-body"><h3>${p.name}</h3><div class="desc">${p.desc}</div><div class="price-row"><span class="price">₹${p.price}</span><button class="btn" onclick="addToCart(${p.id})">+ Add</button></div></div></article>`).join('')||'<p>No food found. Try another search.</p>'}
+function filterFood(cat,el){currentCategory=cat;document.querySelectorAll('.cat').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderFoods()}
+function searchFood(){document.getElementById('location').dataset.query=document.getElementById('location').value.trim();renderFoods();document.getElementById('menu').scrollIntoView({behavior:'smooth'})}
+function addToCart(id){cart[id]=(cart[id]||0)+1;renderCart()}
+function changeQty(id,delta){cart[id]=(cart[id]||0)+delta;if(cart[id]<=0)delete cart[id];renderCart()}
+function renderCart(){const ids=Object.keys(cart);let count=0,subtotal=0;ids.forEach(id=>{count+=cart[id];subtotal+=products.find(p=>p.id==id).price*cart[id]});document.getElementById('cartCount').textContent=`(${count})`;document.getElementById('subtotal').textContent='₹'+subtotal;document.getElementById('delivery').textContent=subtotal?'₹30':'₹0';document.getElementById('total').textContent='₹'+(subtotal?(subtotal+30):0);document.getElementById('cartItems').innerHTML=ids.length?ids.map(id=>{let p=products.find(x=>x.id==id);return `<div class="cart-item"><div><b>${p.name}</b><br>₹${p.price} × ${cart[id]}</div><div class="qty"><button onclick="changeQty(${id},-1)">−</button><span>${cart[id]}</span><button onclick="changeQty(${id},1)">+</button></div></div>`}).join(''):'<div class="empty">Your cart is empty. Add some tasty food!</div>'}
+function checkout(){if(!Object.keys(cart).length){alert('Please add food items to your cart first.');return}const name=prompt('Enter your name to confirm the demo order:');if(!name)return;alert('Thank you, '+name+'! Your demo order has been placed. Total: '+document.getElementById('total').textContent+'. No real payment was taken.');cart={};renderCart()}
+renderFoods();
+</script>
+</body>
+</html>
